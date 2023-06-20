@@ -2,6 +2,7 @@ const app = Vue.createApp({
     data() {
         return {
             method: 'months',
+            
             months: 0,
             startValue: 0,
             monthlyValue: 0,
@@ -29,7 +30,8 @@ const app = Vue.createApp({
                 totalInvested: { english: 'Total Invested', portuguese: 'Total Investido' },
                 totalCompound: { english: 'Total Compound', portuguese: 'Total Composto' },
                 value: { english: 'Value', portuguese: 'Valor' },
-                useRule: { english: 'Use 3% Rule', portuguese: 'Usar Regra de 3%' }
+                useRule: { english: 'Use 3% Rule', portuguese: 'Usar Regra de 3%' },
+                years: { english: 'Years', portuguese: 'Anos' },
             }
         }
     },
@@ -42,9 +44,11 @@ const app = Vue.createApp({
             let chartDataValue = [];
             let chartDataInvested = [];
             let chartDataProfit = [];
+            let totalMonths = this.method === 'years' ? this.months * 12 : this.months;
+           
 
             let i = 0;
-            while ((this.method === 'months' && i < this.months) || (this.method === 'dividend' && (this.useRule ? (currentValue * 0.03 / 12) : (currentValue * this.yearProfitPercentage / 100 / 12)) < this.dividendObjective)) {
+            while ((['months', 'years'].includes(this.method) && i < totalMonths) || (this.method === 'dividend' && (this.useRule ? (currentValue * 0.03 / 12) : (currentValue * this.yearProfitPercentage / 100 / 12)) < this.dividendObjective)) {
                 totalInvested += this.monthlyValue;
                 currentValue += this.monthlyValue;
                 currentValue *= (1 + this.yearProfitPercentage / 100 / 12);

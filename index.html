@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Theme Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container mt-5">
+        <h1 class="text-center mb-4">Dark Theme Calculator</h1>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h4 class="text-center">Buttons</h4>
+                        <button class="btn btn-primary btn-block"
+                            onclick="window.location.href = 'calc.html'">Calculator</button>
+                        <button class="btn btn-primary btn-block" onclick="window.location.href = 'stock.html'">Stock
+                            Files</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.6.12"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    input: '',
+                };
+            },
+        });
+    </script>
+</body>
+
+</html>
