@@ -5,68 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Investment Calculator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
-    <div id="app" class="container py-5">
-        <div class="mb-3">
-            <label class="form-label">{{ translations.method[this.language] }}</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="method" id="methodMonths" value="months" v-model="method">
-                <label class="form-check-label" for="methodMonths">{{ translations.months[this.language] }}</label>
+    <div id="app" class="container py-2">
+        <div class="row">
+            <div class="col-3">
+                <div class="mb-3">
+                    <label class="form-label">{{ translations.method[this.language] }}</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="method" id="methodMonths" value="months" v-model="method">
+                        <label class="form-check-label" for="methodMonths">{{ translations.months[this.language] }}</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="method" id="methodYears" value="years" v-model="method">
+                        <label class="form-check-label" for="methodYears">{{ translations.years[this.language] }}</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="method" id="methodDividend" value="dividend" v-model="method">
+                        <label class="form-check-label" for="methodDividend">{{ translations.dividendObjective[this.language] }}</label>
+                    </div>
+                </div>
+                <div class="mb-3" v-if="method === 'months' || method === 'years'">
+                    <label class="form-label">{{ method === 'months' ? translations.months[this.language] : translations.years[this.language] }}</label>
+                    <input type="number" v-model="months" class="form-control">
+                </div>
+                <div class="mb-3" v-if="method === 'dividend'">
+                    <label class="form-label">{{ translations.dividendObjective[this.language] }}</label>
+                    <input type="number" v-model="dividendObjective" class="form-control">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" v-model="useRule" id="useRule">
+                        <label class="form-check-label" for="useRule">{{ translations.useRule[this.language] }}</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">{{ translations.startValue[this.language] }}</label>
+                    <input type="number" v-model="startValue" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">{{ translations.monthlyValue[this.language] }}</label>
+                    <input type="number" v-model="monthlyValue" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">{{ translations.yearProfitPercentage[this.language] }}</label>
+                    <input type="number" v-model="yearProfitPercentage" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">{{ translations.language[this.language] }}</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="language" id="languageEnglish" value="english" v-model="language">
+                        <label class="form-check-label" for="languageEnglish">{{ translations.english[this.language] }}</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="language" id="languagePortuguese" value="portuguese" v-model="language">
+                        <label class="form-check-label" for="languagePortuguese">{{ translations.portuguese[this.language] }}</label>
+                    </div>
+                </div>
+                <button @click="calculate" class="btn btn-primary">{{ translations.calculate[this.language] }}</button>
+
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="method" id="methodYears" value="years" v-model="method">
-                <label class="form-check-label" for="methodYears">{{ translations.years[this.language] }}</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="method" id="methodDividend" value="dividend" v-model="method">
-                <label class="form-check-label" for="methodDividend">{{ translations.dividendObjective[this.language] }}</label>
-            </div>
-        </div>
-        <div class="mb-3" v-if="method === 'months' || method === 'years'">
-            <label class="form-label">{{ method === 'months' ? translations.months[this.language] : translations.years[this.language] }}</label>
-            <input type="number" v-model="months" class="form-control">
-        </div>
-        <div class="mb-3" v-if="method === 'dividend'">
-            <label class="form-label">{{ translations.dividendObjective[this.language] }}</label>
-            <input type="number" v-model="dividendObjective" class="form-control">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" v-model="useRule" id="useRule">
-                <label class="form-check-label" for="useRule">{{ translations.useRule[this.language] }}</label>
+            <div class="col-9">
+                <canvas id="chart" class="mt-5"></canvas>
+                <ul v-if="profits.length > 0 && showList" class="mt-5 list-group">
+                    <li v-for="(item, index) in profits" :key="index" class="list-group-item d-flex justify-content-between">
+                        <div>{{ translations.month[this.language] }} {{ index + 1 }}: </div>
+                        <div>{{ translations.totalInvested[this.language] }}: {{ item.totalInvested.toFixed(2) }}, {{ translations.totalCompound[this.language] }}: {{ item.totalCompound.toFixed(2) }}, {{ translations.value[this.language] }}: {{ item.value.toFixed(2) }}</div>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">{{ translations.startValue[this.language] }}</label>
-            <input type="number" v-model="startValue" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">{{ translations.monthlyValue[this.language] }}</label>
-            <input type="number" v-model="monthlyValue" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">{{ translations.yearProfitPercentage[this.language] }}</label>
-            <input type="number" v-model="yearProfitPercentage" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">{{ translations.language[this.language] }}</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="language" id="languageEnglish" value="english" v-model="language">
-                <label class="form-check-label" for="languageEnglish">{{ translations.english[this.language] }}</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="language" id="languagePortuguese" value="portuguese" v-model="language">
-                <label class="form-check-label" for="languagePortuguese">{{ translations.portuguese[this.language] }}</label>
-            </div>
-        </div>
-        <button @click="calculate" class="btn btn-primary">{{ translations.calculate[this.language] }}</button>
-        <canvas id="chart" class="mt-5"></canvas>
         <button @click="showList = !showList" class="mt-5 btn btn-secondary">{{ showList ? translations.hideList[this.language] : translations.showList[this.language] }}</button>
-        <ul v-if="profits.length > 0 && showList" class="mt-5 list-group">
-            <li v-for="(item, index) in profits" :key="index" class="list-group-item d-flex justify-content-between">
-                <div>{{ translations.month[this.language] }} {{ index + 1 }}: </div>
-                <div>{{ translations.totalInvested[this.language] }}: {{ item.totalInvested.toFixed(2) }}, {{ translations.totalCompound[this.language] }}: {{ item.totalCompound.toFixed(2) }}, {{ translations.value[this.language] }}: {{ item.value.toFixed(2) }}</div>
-            </li>
-        </ul>
     </div>
     <script src="https://unpkg.com/vue@3.2.20/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
