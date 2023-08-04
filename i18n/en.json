@@ -1,0 +1,21 @@
+{
+    "method": "Calculation Method",
+    "months": "Months",
+    "dividendObjective": "Dividend Objective",
+    "startValue": "Starting Value",
+    "monthlyValue": "Monthly Value",
+    "yearProfitPercentage": "Year Profit Percentage",
+    "language": "Language",
+    "english": "English",
+    "portuguese": "Portuguese",
+    "calculate": "Calculate",
+    "hideList": "Hide List",
+    "showList": "Show List",
+    "month": "Month",
+    "totalInvested": "Total Invested",
+    "totalCompound": "Total Compound",
+    "value": "Value",
+    "useRule": "Use 3% Rule",
+    "years": "Years"
+  }
+  

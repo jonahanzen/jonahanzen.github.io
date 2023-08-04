@@ -1,0 +1,21 @@
+{
+    "method": "Método de Cálculo",
+    "months": "Meses",
+    "dividendObjective": "Objetivo do Dividendo",
+    "startValue": "Valor Inicial",
+    "monthlyValue": "Valor Mensal",
+    "yearProfitPercentage": "Percentual de Lucro Anual",
+    "language": "Idioma",
+    "english": "Inglês",
+    "portuguese": "Português",
+    "calculate": "Calcular",
+    "hideList": "Esconder Lista",
+    "showList": "Mostrar Lista",
+    "month": "Mês",
+    "totalInvested": "Total Investido",
+    "totalCompound": "Total Composto",
+    "value": "Valor",
+    "useRule": "Usar Regra de 3%",
+    "years": "Anos"
+  }
+  

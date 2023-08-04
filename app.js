@@ -12,30 +12,20 @@ const app = Vue.createApp({
             dividendObjective: 0,
             useRule: false,
             showList: true,
-            language: 'english',
-            translations: {
-                method: { english: 'Calculation Method', portuguese: 'Método de Cálculo' },
-                months: { english: 'Months', portuguese: 'Meses' },
-                dividendObjective: { english: 'Dividend Objective', portuguese: 'Objetivo do Dividendo' },
-                startValue: { english: 'Starting Value', portuguese: 'Valor Inicial' },
-                monthlyValue: { english: 'Monthly Value', portuguese: 'Valor Mensal' },
-                yearProfitPercentage: { english: 'Year Profit Percentage', portuguese: 'Percentual de Lucro Anual' },
-                language: { english: 'Language', portuguese: 'Idioma' },
-                english: { english: 'English', portuguese: 'Inglês' },
-                portuguese: { english: 'Portuguese', portuguese: 'Português' },
-                calculate: { english: 'Calculate', portuguese: 'Calcular' },
-                hideList: { english: 'Hide List', portuguese: 'Esconder Lista' },
-                showList: { english: 'Show List', portuguese: 'Mostrar Lista' },
-                month: { english: 'Month', portuguese: 'Mês' },
-                totalInvested: { english: 'Total Invested', portuguese: 'Total Investido' },
-                totalCompound: { english: 'Total Compound', portuguese: 'Total Composto' },
-                value: { english: 'Value', portuguese: 'Valor' },
-                useRule: { english: 'Use 3% Rule', portuguese: 'Usar Regra de 3%' },
-                years: { english: 'Years', portuguese: 'Anos' },
-            }
+            language: 'pt',
+            translations: {}
         }
     },
     methods: {
+        loadTranslations() {
+            const lang = this.language;
+            fetch(`./i18n/${lang}.json`) // Replace this with the actual path to your language JSON files
+                .then(response => response.json())
+                .then(data => {
+                    this.translations = data;
+                })
+                .catch(error => console.error('Error loading translations:', error));
+        },
         calculate() {
             this.profits = [];
             let currentValue = this.startValue;
@@ -99,6 +89,9 @@ const app = Vue.createApp({
                 }
             });
         }
+    }, 
+    created() {
+        this.loadTranslations();
     }
 });
 
