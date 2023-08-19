@@ -24,7 +24,7 @@ const app = Vue.createApp({
     methods: {
         loadTranslations() {
             const lang = this.language;
-            fetch(`./i18n/${lang}.json`) // Replace this with the actual path to your language JSON files
+            fetch(`/i18n/${lang}.json`)
                 .then(response => response.json())
                 .then(data => {
                     this.translations = data;
