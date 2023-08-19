@@ -16,6 +16,11 @@ const app = Vue.createApp({
             translations: {}
         }
     },
+    watch: {
+        language(newLanguage) {
+            this.loadTranslations();
+          }
+    },
     methods: {
         loadTranslations() {
             const lang = this.language;
