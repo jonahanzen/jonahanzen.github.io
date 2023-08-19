@@ -75,19 +75,19 @@ const app = Vue.createApp({
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Investment Value',
+                            label: this.translations.totalValue,
                             data: chartDataValue,
                             backgroundColor: 'rgb(75, 192, 192)',
                             borderColor: 'rgb(75, 192, 192)',
                         },
                         {
-                            label: 'Total Invested',
+                            label: this.translations.totalInvested,
                             data: chartDataInvested,
                             backgroundColor: 'rgb(54, 162, 235)',
                             borderColor: 'rgb(54, 162, 235)',
                         },
                         {
-                            label: 'Total Compound',
+                            label: this.translations.totalCompound,
                             data: chartDataProfit,
                             backgroundColor: 'rgb(255, 99, 132)',
                             borderColor: 'rgb(255, 99, 132)',
