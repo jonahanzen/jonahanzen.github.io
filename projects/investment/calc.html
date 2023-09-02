@@ -70,7 +70,13 @@
 
             </div>
             <div class="col-9">
-                <canvas id="chart" class="mt-5"></canvas>
+                <div v-if="showInstructions" class="mt-5 alert alert-info">
+                    <p><strong>Instructions:</strong></p>
+                    <p>1. Choose your investment method (Months, Years, Dividend).</p>
+                    <p>2. Enter the required values based on your chosen method.</p>
+                    <p>3. Click the "Calculate" button to see the investment growth chart and details.</p>
+                </div>
+                <canvas  v-if="!showInstructions" id="chart" class="mt-5"></canvas>
                 <ul v-if="profits.length > 0 && showList" class="mt-5 list-group">
                     <li v-for="(item, index) in profits" :key="index" class="list-group-item d-flex justify-content-between">
                         <div>{{ translations.month }} {{ index + 1 }}: </div>
